@@ -1,0 +1,146 @@
+" Action list https://gist.github.com/zchee/9c78f91cc5ad771c1f5d#file-actionlist-vim-L163
+
+" Intellij settings to be done
+" Keymap > Editor Actions > Up / Down --> remaped to <C-n> and <C-p>
+
+
+" .VIMRC
+
+" Comments that start with NEA indicate - No equivalent action id in intellij
+
+" [[Options]]
+
+" Must happen before plugins are loaded (otherwise wrong leader will be used)
+let mapleader = ' '
+let maplocalleader = ' '
+
+" Make line numbers default
+set number
+
+" Sync clipboard between OS and Neovim.
+set clipboard=unnamedplus
+
+"!!! Enable break indent (how sentence wraps when text longer than window, makes it prettier)
+set breakindent
+
+" Save undo history
+set undofile
+
+" Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+set ignorecase
+set smartcase
+
+" Keep signcolumn on by default
+set signcolumn=yes
+
+" Decrease update time
+set updatetime=250
+
+set timeoutlen=10000
+
+" Preview substitutions live, as you type!
+set inccommand=split
+
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=10
+
+" Set highlight on search
+set hlsearch
+
+set incsearch
+
+
+" [[Keymaps]]
+
+" Clipboard actions & registers
+" Paste last yanked not deleted
+nnoremap ,p "0p 
+" Paste over selected without saving to register
+xnoremap p "_dP 
+
+" Diagnostic (Limited in IdeaVim, so general mappings are provided)
+nnoremap [d :action GotoPreviousError<CR>
+nnoremap ]d :action GotoNextError<CR>
+nnoremap <leader>e :action ShowErrorDescription<CR>
+
+" Buffer navigation
+
+" Move half page down and center view
+nnoremap <C-d> <C-d>zz 
+
+" Window navigation (Similar window movement mappings)
+
+" Move focus to the left window
+nnoremap <C-h> <C-w>h
+" Move focus to the right window
+nnoremap <C-l> <C-w>l
+" Move focus to the lower window
+nnoremap <C-j> <C-w>j
+" Move focus to the upper window
+nnoremap <C-k> <C-w>k
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+
+" File Explorer plugin
+Plug 'preservim/nerdtree'
+" Toggle file explorer
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+set which-key
+
+set surround
+
+" [[Telescope Mappings]]
+
+" Search Help (equivalent to searching in documentation/help)
+nnoremap <leader>sh :action GotoAction<CR>
+
+"(NEA) Search Keymaps (mapped to show settings within IntelliJ IDEA - must select 'Keymap')
+nnoremap <leader>sk :action ShowSettings<CR>
+
+" Search Files (mapped to searching files within the project)
+nnoremap <leader>sf :action GotoFile<CR>
+
+" Search Telescope Select (mapped to searching anything in the project)
+nnoremap <leader>ss :action GotoSymbol<CR>
+
+" Search current Word (mapped to find usages in file)
+nnoremap <leader>sw :action FindUsagesInFile<CR>
+
+" Search by Grep (mapped to Find in Path, similar to grep)
+nnoremap <leader>sg :action FindInPath<CR>
+
+"(NEA) Search Diagnostics (mapped to navigating through errors in IntelliJ IDEA)
+nnoremap <leader>sd :action GotoNextError<CR>
+
+"(NEA) Search Resume
+
+" Search Recent Files (mapped to searching recent files)
+nnoremap <leader>s. :action RecentFiles<CR>
+
+" Find existing buffers (mapped to switch between recent files)
+nnoremap <leader><leader> :action RecentFiles<CR>
+
+"(NEA) Git Files (mapped to searching Git files)
+
+" Git Commits (mapped to view Git history)
+nnoremap <leader>gc :action Git.Log<CR>
+
+" Git Branches (mapped to viewing Git branches)
+nnoremap <leader>gb :action Git.Branches<CR>
+
+"(NEA) Git Status (mapped to view Git history - must select status)
+nnoremap <leader>gs :action Git.Log<CR>
+
+"(NEA) Git Stash (mapped to view Git history - must select stash) 
+nnoremap <leader>gS :action Git.Log<CR>
+
+"(NEA) Git Commits for current buffer (mapped to view Git history - must select file) 
+nnoremap <leader>gC :action Git.Log<CR>
+
+" Fuzzy Search in Current Buffer (mapped to searching in the current file)
+nnoremap <leader>/ :action Find<CR>
