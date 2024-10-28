@@ -2,12 +2,12 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local config = wezterm.config_builder()
 
--- if wezterm.target_triple == "x86_64-pc-windows-msvc" then
--- 	-- font_dirs = {
--- 	--     'C:\\Users\\whoami\\.dotfiles\\.fonts'
--- 	-- }
--- 	default_prog = { "wsl.exe", "~", "-d", "Ubuntu-20.04" }
--- end
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	-- font_dirs = {
+	--     'C:\\Users\\whoami\\.dotfiles\\.fonts'
+	-- }
+	config.default_prog = { "powershell.exe" }
+end
 --
 -- if wezterm.target_triple == "x86_64-apple-darwin" then
 -- 	-- font_dirs    = { '$HOME/.dotfiles/.fonts' }
