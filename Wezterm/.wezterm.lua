@@ -207,16 +207,16 @@ config.key_tables = {
 	},
 }
 
-local enable_random_tab_title_icons = false
 local enable_random_tab_quote = true
 local chars = { "🍓", "🍇", "🍙", "🍟", "🥡" }
 local quotes = {
 	"I Will Piledrive You If You Say AI Again",
 	"Premature Optimization is the Route of All Evil",
 	"There are only two hard things in Computer Science: cache invalidation and naming things.",
+	"Tailwind is the worst way to do CSS... except for all other ways that have been tried",
 }
 
-local BACKGROUND_OPACITY = 0.8
+local BACKGROUND_OPACITY = 0.7
 local TRANSPARENT = "rgba(0,0,0," .. BACKGROUND_OPACITY .. ")"
 local LIGHT_GREY = "rgba(255,210,255,0.7)"
 local PASTEL_BLUE = "#a2bffe"
@@ -252,12 +252,13 @@ config.show_new_tab_button_in_tab_bar = false
 -----------
 -- Fonts --
 -----------
-config.font = wezterm.font("JetBrains Mono", { weight = "Bold", italic = false })
+config.font = wezterm.font("JetBrains Mono")
 config.font_size = 10.0
 
 -----------
 -- Theme --
 -----------
+-- config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = BACKGROUND_OPACITY
 
 config.colors = {
@@ -314,15 +315,6 @@ config.tab_bar_style = {
 	}),
 }
 
--- utility method
-local function getRandomElement(array)
-	if #array == 0 then
-		return nil -- Return nil if the array is empty
-	end
-	local index = math.random(1, #array)
-	return array[index]
-end
-
 local function tab_title(tab_info)
 	local title = tab_info.tab_title -- if the tab title is explicitly set, take that
 
@@ -343,19 +335,12 @@ wezterm.on("format-tab-title", function(tab_info, tabs, panes, conf, hover, max_
 
 	title = wezterm.truncate_right(title, max_width - 2)
 
-	local randomElement = ""
-
-	if enable_random_tab_title_icons then
-		randomElement = getRandomElement(chars) .. ""
-	end
-
 	if #title < 3 then -- Wezterm defaults to original title if the title text set by this function is too short
 		title = title .. "  "
 	end
 
 	return {
 		{ Text = title },
-		{ Text = randomElement },
 	}
 end)
 
@@ -364,20 +349,6 @@ local key_tables = {
 	copy_mode = { symbol = "C", color = PASTEL_GREEN },
 	search_mode = { symbol = "S", color = PASTEL_PINK },
 }
-
-local function getConsistentElement(array)
-	if #array == 0 then
-		return nil -- Return nil if the array is empty
-	end
-
-	-- Get the current hour (from 0 to 23)
-	local hour = os.date("*t").hour
-
-	-- Use the hour to pick a consistent index in the array
-	local index = (hour % #array) + 1
-
-	return array[index]
-end
 
 -- tmux status
 wezterm.on("update-right-status", function(window, _)
@@ -405,17 +376,32 @@ wezterm.on("update-right-status", function(window, _)
 		STATUS_FOREGROUND,
 		{ Text = left_status },
 	}))
-
-	local randomQuote = ""
-	if enable_random_tab_quote then
-		randomQuote = getConsistentElement(quotes) .. "   "
-	end
-
-	window:set_right_status(wezterm.format({
-		{ Background = { Color = TRANSPARENT } },
-		{ Foreground = { Color = PASTEL_BLUE } },
-		{ Text = randomQuote },
-	}))
 end)
+
+-- utility method
+local function getRandomElement(array)
+	if #array == 0 then
+		return nil -- Return nil if the array is empty
+	end
+	local index = math.random(1, #array)
+	return array[index]
+end
+
+local function updateTitleQuote()
+	local windows = wezterm.gui.gui_windows()
+	for _, window in ipairs(windows) do
+		if enable_random_tab_quote then
+			local randomQuote = getRandomElement(quotes) .. "   "
+			window:set_right_status(wezterm.format({
+				{ Background = { Color = TRANSPARENT } },
+				{ Foreground = { Color = PASTEL_BLUE } },
+				{ Text = randomQuote },
+			}))
+		end
+	end
+	wezterm.time.call_after(1800, updateTitleQuote)
+end
+
+wezterm.time.call_after(1, updateTitleQuote)
 
 return config
