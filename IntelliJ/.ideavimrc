@@ -1,7 +1,7 @@
 " Action list https://gist.github.com/zchee/9c78f91cc5ad771c1f5d#file-actionlist-vim-L163
 
 " Intellij settings to be done
-" Keymap > Editor Actions > Up / Down --> remaped to <C-n> and <C-p>
+" Keymap > Editor Actions > Up / Down --> remaped to <C-n> and <C-p>, remove previous keymaps of these new keys
 
 
 " .VIMRC
@@ -52,6 +52,12 @@ set incsearch
 
 " [[Keymaps]]
 
+" Auto Complete
+inoremap <C-y> :action EditorChooseLookupItem<CR>
+
+" Code Action
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+
 " Clipboard actions & registers
 " Paste last yanked not deleted
 nnoremap ,p "0p 
@@ -89,6 +95,8 @@ Plug 'tpope/vim-commentary'
 Plug 'preservim/nerdtree'
 " Toggle file explorer
 nnoremap <leader>n :NERDTreeToggle<CR>
+" Locate current open file on nerd tree
+nnoremap <Leader>l :NERDTreeFind<CR>
 
 set which-key
 
