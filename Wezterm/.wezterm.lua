@@ -210,10 +210,11 @@ config.key_tables = {
 local enable_random_tab_quote = true
 local chars = { "🍓", "🍇", "🍙", "🍟", "🥡" }
 local quotes = {
-	"I Will Piledrive You If You Say AI Again",
-	"Premature Optimization is the Route of All Evil",
-	"There are only two hard things in Computer Science: cache invalidation and naming things.",
-	"Tailwind is the worst way to do CSS... except for all other ways that have been tried",
+	"Please hesitate to reach out to me",
+	-- "I Will Piledrive You If You Say AI Again",
+	-- "Premature Optimization is the Route of All Evil",
+	-- "There are only two hard things in Computer Science: cache invalidation and naming things.",
+	-- "Tailwind is the worst way to do CSS... except for all other ways that have been tried",
 }
 
 local BACKGROUND_OPACITY = 0.7
